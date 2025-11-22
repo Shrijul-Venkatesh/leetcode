@@ -1,0 +1,28 @@
+from collections import deque
+
+class Solution:
+    def predictPartyVictory(self, senate: str) -> str:
+        n = len(senate)
+        radiant = deque()
+        dire = deque()
+
+        # Initialize queues with indices of each party
+        for i, ch in enumerate(senate):
+            if ch == 'R':
+                radiant.append(i)
+            else:
+                dire.append(i)
+
+        # Simulate rounds
+        while radiant and dire:
+            r = radiant.popleft()
+            d = dire.popleft()
+
+            # The smaller index acts first and bans the other
+            # The winner goes to the next round at index + n
+            if r < d:
+                radiant.append(r + n)
+            else:
+                dire.append(d + n)
+
+        return "Radiant" if radiant else "Dire"
